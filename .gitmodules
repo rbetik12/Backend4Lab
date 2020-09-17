@@ -1,0 +1,3 @@
+[submodule "src/main/webapp/frontend"]
+	path = src/main/webapp/frontend
+	url = https://github.com/rbetik12/Frontend4Lab.git
