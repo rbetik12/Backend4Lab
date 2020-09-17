@@ -20,11 +20,24 @@ public class UserService {
         em.getTransaction().commit();
     }
 
-    public boolean checkUsernameExistance(String username){
+    public boolean checkUsernameExistance(User user){
         try {
-            User user = (User) em.createQuery(" from User where username = :username")
-                    .setParameter("username", username).getSingleResult();
-            return user == null;
+            User _user = (User) em.createQuery(" from User where username = :username")
+                    .setParameter("username", user.getUsername()).getSingleResult();
+            return _user == null;
         } catch (NoResultException e){ return true; }
+    }
+
+    public boolean authenticate(User user) {
+        try {
+            User _user = (User) em.createQuery(" from User where username = :username")
+                    .setParameter("username", user.getUsername()).getSingleResult();
+            if (_user != null) {
+                if (_user.getPassword().equals(user.password)) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (NoResultException e){ return false; }
     }
 }

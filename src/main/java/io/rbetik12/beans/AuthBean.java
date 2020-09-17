@@ -30,13 +30,28 @@ public class AuthBean {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createUser(User user) throws IOException {
 
-        if (validationService.validateUser(user) && userService.checkUsernameExistance(user.getUsername())) {
+        if (validationService.validateUser(user) && userService.checkUsernameExistance(user)) {
             System.out.println("User is ok!");
             userService.createUser(user);
             return Response.noContent().build();
         }
         else {
             System.out.println("User is not ok!");
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+    }
+
+    @Path("/signin")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response logIn(User user) throws IOException {
+
+        if (validationService.validateUser(user) && userService.authenticate(user)) {
+            System.out.println("Successfully authenticated!");
+            return Response.noContent().build();
+        }
+        else {
+            System.out.println("User is not authenticated!");
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }
