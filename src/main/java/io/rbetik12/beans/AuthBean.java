@@ -8,12 +8,14 @@ import io.rbetik12.services.ValidationService;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.servlet.http.HttpSession;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.*;
 import java.io.IOException;
+import java.util.Date;
 
 @Singleton
 @Path(value = "/auth")
@@ -25,18 +27,18 @@ public class AuthBean {
     @EJB
     private UserService userService;
 
+    @Context
+    private HttpServletRequest request;
+
     @Path("/signup")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createUser(User user) throws IOException {
 
         if (validationService.validateUser(user) && userService.checkUsernameExistance(user)) {
-            System.out.println("User is ok!");
             userService.createUser(user);
             return Response.noContent().build();
-        }
-        else {
-            System.out.println("User is not ok!");
+        } else {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }
@@ -45,21 +47,19 @@ public class AuthBean {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response logIn(User user) throws IOException {
-
         if (validationService.validateUser(user) && userService.authenticate(user)) {
-            System.out.println("Successfully authenticated!");
-            return Response.noContent().build();
-        }
-        else {
-            System.out.println("User is not authenticated!");
+            HttpSession session = request.getSession();
+            session.setAttribute("username", user.username);
+            return Response.ok().entity(session.getId()).build();
+        } else {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }
 
-    @Path("/test")
-    @GET
-    public String test(@Context HttpServletResponse resp,
-                       @Context HttpServletRequest req) throws IOException {
-        return "It works!";
+    @Path("/logout")
+    @POST
+    public Response logOut() {
+        request.getSession().invalidate();
+        return Response.noContent().build();
     }
 }
