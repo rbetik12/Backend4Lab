@@ -53,4 +53,19 @@ public class PointBean {
             return pointService.getUserPoints((long) session.getAttribute("id"));
         }
     }
+
+    @Path("/getAllUsersPoints")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Point> getAllUsersPoints(@Context HttpServletResponse resp) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            resp.setStatus(403);
+            return new ArrayList<>();
+        }
+        else {
+            resp.setStatus(200);
+            return pointService.getAllUsersPoints();
+        }
+    }
 }

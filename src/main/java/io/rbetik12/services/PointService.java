@@ -64,4 +64,16 @@ public class PointService {
         }
         return points;
     }
+
+    public List<Point> getAllUsersPoints() {
+        List<Point> points = new ArrayList<>();
+
+        try {
+            points = (List<Point>) em.createQuery("from Point").getResultList();
+        }
+        catch (NoResultException e) {
+            System.out.println("Empty!");
+        }
+        return points;
+    }
 }
