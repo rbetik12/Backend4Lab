@@ -49,7 +49,8 @@ public class AuthBean {
     public Response logIn(User user) throws IOException {
         if (validationService.validateUser(user) && userService.authenticate(user)) {
             HttpSession session = request.getSession();
-            session.setAttribute("username", user.username);
+            session.setAttribute("username", user.getUsername());
+            session.setAttribute("id", user.getId());
             return Response.ok().entity(session.getId()).build();
         } else {
             return Response.status(Response.Status.BAD_REQUEST).build();

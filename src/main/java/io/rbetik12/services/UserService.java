@@ -34,6 +34,7 @@ public class UserService {
                     .setParameter("username", user.getUsername()).getSingleResult();
             if (_user != null) {
                 if (_user.getPassword().equals(user.password)) {
+                    user.setId(_user.getId());
                     return true;
                 }
             }
