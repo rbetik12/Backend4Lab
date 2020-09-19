@@ -2,13 +2,13 @@ package io.rbetik12.services;
 
 import io.rbetik12.models.User;
 
-import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 
-@Stateful
+@Stateless
 public class UserService {
 
     private EntityManagerFactory factory = Persistence.createEntityManagerFactory("JPAUnit");

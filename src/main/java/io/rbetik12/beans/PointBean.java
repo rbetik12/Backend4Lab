@@ -2,6 +2,7 @@ package io.rbetik12.beans;
 
 import io.rbetik12.models.Point;
 import io.rbetik12.services.PointService;
+import io.rbetik12.services.ValidationService;
 
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
@@ -22,6 +23,9 @@ public class PointBean {
     @EJB
     private PointService pointService;
 
+    @EJB
+    private ValidationService validationService;
+
     @Context
     private HttpServletRequest request;
 
@@ -30,6 +34,7 @@ public class PointBean {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response check(Point point) {
         HttpSession session = request.getSession(false);
+        if (!validationService.validatePoint(point)) return Response.status(Response.Status.BAD_REQUEST).build();
         if (session == null) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
