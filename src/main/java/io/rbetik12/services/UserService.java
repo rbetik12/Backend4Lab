@@ -33,7 +33,7 @@ public class UserService {
             User _user = (User) em.createQuery(" from User where username = :username")
                     .setParameter("username", user.getUsername()).getSingleResult();
             if (_user != null) {
-                if (_user.getPassword().equals(user.password)) {
+                if (_user.getPassword().equals(user.getPassword())) {
                     user.setId(_user.getId());
                     return true;
                 }

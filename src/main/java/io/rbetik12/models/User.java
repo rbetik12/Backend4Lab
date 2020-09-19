@@ -1,12 +1,13 @@
 package io.rbetik12.models;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "Users")
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -14,10 +15,10 @@ public class User {
     private long id;
 
     @Column(name = "username", nullable = false, unique = true)
-    public String username;
+    private String username;
 
     @Column(name = "password", nullable = false)
-    public String password;
+    private String password;
 
     @OneToMany(
             cascade = CascadeType.ALL,
@@ -49,7 +50,12 @@ public class User {
 
     @Override
     public String toString() {
-        return username + " " + password;
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", points=" + points +
+                '}';
     }
 
     public long getId() {
