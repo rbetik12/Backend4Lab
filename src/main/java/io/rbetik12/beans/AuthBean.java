@@ -47,7 +47,7 @@ public class AuthBean {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response logIn(User user) throws IOException {
-        if (validationService.validateUser(user) && userService.authenticate(user)) {
+        if (userService.authenticate(user)) {
             HttpSession session = request.getSession();
             session.setAttribute("username", user.getUsername());
             session.setAttribute("id", user.getId());

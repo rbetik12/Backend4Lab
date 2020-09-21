@@ -15,6 +15,7 @@ public class UserService {
     private EntityManager em = factory.createEntityManager();
 
     public void createUser(User user) {
+        user.setPassword(String.valueOf(user.getPassword().hashCode()));
         em.getTransaction().begin();
         em.persist(user);
         em.getTransaction().commit();
@@ -33,7 +34,7 @@ public class UserService {
             User _user = (User) em.createQuery(" from User where username = :username")
                     .setParameter("username", user.getUsername()).getSingleResult();
             if (_user != null) {
-                if (_user.getPassword().equals(user.getPassword())) {
+                if (_user.getPassword().equals(String.valueOf(user.getPassword().hashCode()))) {
                     user.setId(_user.getId());
                     return true;
                 }
