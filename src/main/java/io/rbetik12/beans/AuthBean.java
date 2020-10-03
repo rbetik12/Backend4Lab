@@ -7,6 +7,7 @@ import io.rbetik12.services.ValidationService;
 
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
+import javax.ejb.Stateful;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
@@ -17,7 +18,7 @@ import javax.ws.rs.core.*;
 import java.io.IOException;
 import java.util.Date;
 
-@Singleton
+@Stateful
 @Path(value = "/auth")
 public class AuthBean {
 
