@@ -5,7 +5,7 @@
 
     <persistence-unit name="JPAUnit" >
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <jta-data-source>java:/MySqlDS</jta-data-source>
+        <jta-data-source>java:/OracleDS</jta-data-source>
         <class>io.rbetik12.models.User</class>
         <class>io.rbetik12.models.Point</class>
         <properties>
@@ -13,7 +13,6 @@
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.format_sql" value="true" />
             <property name="hibernate.hbm2ddl.auto" value="update" />
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57Dialect"/>
 
         </properties>
     </persistence-unit>
